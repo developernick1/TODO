@@ -1,0 +1,17 @@
+export const colors = {
+primaryColor: '#5DCCFC',
+whiteColor: '#FFFFFF',
+blackColor: '#000000',
+InActiveDot: '#F2F2F2',
+InputBackground: '#F4F4F4',
+InputShadow: '#333333',
+OnBoardingTextGrey: '#625D5D',
+shadowColor: 'rgba(0, 0, 0, 0.50)',
+buttonshadowColor: '#3190E8',
+greyText: '#8E8E8E',
+darkgreyText: '#575757',
+greyCheck: '#CBCBCB',
+blueText: '#0F80FD',
+SocialBorderColor: '#50BEFC',
+SocialTileColor: '#F4FCFF',
+};
