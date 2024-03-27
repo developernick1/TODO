@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet } from 'react-native'
 import React from 'react'
 import { colors } from '../../assets/color';
-import { Logo_Icon, Waves_Icon } from '../../assets/icons';
+import { LogoNew_Icon, Logo_Icon, Waves_Icon } from '../../assets/icons';
 import { height, width } from '../../assets/string';
 import fonts from '../../assets/fonts';
 
@@ -9,9 +9,9 @@ const SplashScreen = () => {
     return (
         <View style={styles?.splashWrapper} >
             <View style={styles?.centerView} >
-                <Logo_Icon height={height / 5} width={width / 1.2} />
-                <Text style={styles?.mainHeading} >Drop's Water Tracker</Text>
-                <Text style={styles?.subHeading} >Stay hydrated and track your daily water intake</Text>
+                <LogoNew_Icon height={height / 5} width={width / 1.2} />
+                <Text style={styles?.mainHeading} >Todo App</Text>
+                <Text style={styles?.subHeading} >Organize Your Tasks Efficiently with our Todo App</Text>
             </View>
             <View style={styles?.downIcon} >
                 <Waves_Icon height={height / 5} width={width} />

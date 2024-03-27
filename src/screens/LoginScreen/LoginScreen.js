@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, Pressable } from 'react-native'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { colors } from '../../assets/color'
 import { CrossBlack_Icon, EYE_Icon, FaceBook_Icon, Google_Icon, Lock_Icon, Mail_Icon } from '../../assets/icons'
 import { height, width } from '../../assets/string'
@@ -8,27 +8,71 @@ import CommonButton from '../../components/Button/CommonButton'
 import CommonInput from '../../components/Input/CommonInput'
 import { useNavigation } from '@react-navigation/native'
 import NavigationStrings from '../../routes/NavigationStrings'
+import AppwriteContext from '../../appwrite/appWriteContext'
+import Snackbar from 'react-native-snackbar'
+import { useDispatch } from 'react-redux'
+import { setIsloggedIn } from '../../redux/actions/user'
 
 const LoginScreen = () => {
     const [show, setshow] = useState(false)
+    const {appwrite, setIsLoggedIn, isLoggedIn} = useContext(AppwriteContext);
 
+    const [error, setError] = useState('');
+  
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    
     const navigation = useNavigation()
+    const dispatch = useDispatch();
 
     let ButtonData = {
         Tittle: "LOG IN",
-        // onClick: () => { navigation?.navigate(NavigationStrings?.LOGIN_SCREEN) }
+        onClick: () => { handleLogin() }
     }
 
     let InputDataEmail = {
         PlaceHolderTittle: "Email address",
         IconOne: Mail_Icon,
+        onChangeNumber: setEmail,
     }
     let InputDataPass = {
         PlaceHolderTittle: "Password",
         IconOne: Lock_Icon,
         type: 'password',
         IconTwo: EYE_Icon,
+        onChangeNumber: setPassword,
     }
+
+    const handleLogin = () => {
+        console?.log('Login')
+        if (email.length < 1 || password.length < 1) {
+          setError('All fields are required')
+        } else {
+          const user = {
+            email,
+            password
+          }
+          appwrite
+          .login(user)
+          .then((response) => {
+            if (response) {
+              setIsLoggedIn(true);
+              dispatch(setIsloggedIn(true));
+              console?.log('True is not or yes',isLoggedIn )
+              Snackbar.show({
+                text: 'Login Success',
+                duration: Snackbar.LENGTH_SHORT
+              })
+            }
+          })
+          .catch(e => {
+            console.log(e);
+            setEmail('Incorrect email or password')
+            
+          })
+        }
+      }
+
 
     return (
         <View style={styles?.LoginScreenWrapper} >

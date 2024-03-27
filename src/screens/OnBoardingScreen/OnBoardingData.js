@@ -4,20 +4,20 @@ export const OnBoardingData = [
     {
         id:1,
         Icon : OnOne_Icon,
-        Heading:'Track your daily water intake with Us.',
-        SubHeading:'Achieve your hydration goals with a simple tap!',
+        Heading:'Stay on Top of Your Tasks.',
+        SubHeading:'Effortlessly manage your to-dos and boost productivity.',
     },
     {
         id:2,
         Icon : OnTwo_Icon,
-        Heading:'Smart Reminders Tailored to You',
-        SubHeading:'Quick and easy to set your hydration goal & then track your daily water intake progress.',
+        Heading:'Simplify Your Life, One Task at a Time',
+        SubHeading:'Streamline your daily routine with our intuitive todo app.',
     },
     {
         id:3,
         Icon : OnThree_Icon,
-        Heading:'Track your daily water intake with Us.',
-        SubHeading:'Staying hydrated every day is easy with Drops Water Tracker.',
+        Heading:'Achieve More, Stress Less.',
+        SubHeading:'Subheading: "Empower yourself to accomplish your goals with ease.',
     },
 
 ]

@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, Pressable, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { colors } from '../../assets/color'
 import { CrossBlack_Icon, EYE_Icon, FaceBook_Icon, FulName_Icon, Google_Icon, INDIA_Icon, Lock_Icon, Mail_Icon } from '../../assets/icons'
 import { height, width } from '../../assets/string'
@@ -10,27 +10,44 @@ import { useNavigation } from '@react-navigation/native'
 import NavigationStrings from '../../routes/NavigationStrings'
 import { CountryPicker } from "react-native-country-codes-picker";
 import CountryCodeInput from '../../components/Input/CountryCodeInput'
+import { AppwriteContext } from '../../appwrite/appWriteContext'
+import Snackbar from 'react-native-snackbar'
+import { useDispatch } from 'react-redux'
+import { setIsloggedIn } from '../../redux/actions/user'
 
-const SplashScreen = () => {
+
+const SignUp = () => {
     const [show, setshow] = useState(false)
     const [showCP, setshowCP] = useState(false)
     const [countryCode, setCountryCode] = useState('+91');
     const [countryFlag, setCountryFlag] = useState('');
 
+    const { appwrite, setIsLoggedIn } = useContext(AppwriteContext)
+
+    const [error, setError] = useState('')
+    const [name, setName] = useState('')
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [repeatPassword, setRepeatPassword] = useState('')
+
     const navigation = useNavigation()
+    const dispatch = useDispatch();
 
     let ButtonData = {
         Tittle: "Create Account",
-        // onClick: () => { navigation?.navigate(NavigationStrings?.LOGIN_SCREEN) }
+        onClick: () => { handleSignup() }
+        // onClick: () => { console?.log(name) }
     }
 
     let InputFullName = {
         PlaceHolderTittle: "Full Name",
         IconOne: FulName_Icon,
+        onChangeNumber: setName,
     }
     let InputDataEmail = {
         PlaceHolderTittle: "Email address",
         IconOne: Mail_Icon,
+        onChangeNumber: setEmail,
     }
     let InputCountryPick = {
         PlaceHolderTittle: "Enter Number",
@@ -44,6 +61,55 @@ const SplashScreen = () => {
         IconOne: Lock_Icon,
         type: 'password',
         IconTwo: EYE_Icon,
+        onChangeNumber: setPassword,
+    }
+    let InputDataConfirmPass = {
+        PlaceHolderTittle: "Confirm Password",
+        IconOne: Lock_Icon,
+        type: 'password',
+        IconTwo: EYE_Icon,
+        onChangeNumber: setRepeatPassword,
+    }
+
+
+
+    const handleSignup = () => {
+        console?.log('SIGNUP')
+
+        if (
+            name.length < 1 ||
+            email.length < 1 ||
+            password.length < 1 ||
+            repeatPassword.length < 1
+        ) {
+            setError('All fields are required');
+        } else if (password !== repeatPassword) {
+            setError('Passwords do not match');
+        } else {
+            const user = {
+                email,
+                password,
+                name,
+            };
+            appwrite
+                .createAccount(user)
+                .then((response) => {
+                    if (response) {
+                        setIsLoggedIn(true)
+                        dispatch(setIsloggedIn(true));
+                        Snackbar.show({
+                            text: 'Signup success',
+                            duration: Snackbar.LENGTH_SHORT
+                        })
+                    }
+                })
+                .catch(e => {
+                    console.log(e);
+                    setError(e.message)
+
+                })
+
+        }
     }
 
     return (
@@ -59,16 +125,17 @@ const SplashScreen = () => {
             </View>
 
             <Text style={{
-            color: 'black',
-            fontSize: 20
-        }}>
-        </Text>
+                color: 'black',
+                fontSize: 20
+            }}>
+            </Text>
 
             <View style={styles?.MiddleArea} >
                 <CommonInput data={InputFullName} />
                 <CommonInput data={InputDataEmail} />
-                <CountryCodeInput data={InputCountryPick} />
+                {/* <CountryCodeInput data={InputCountryPick} /> */}
                 <CommonInput data={InputDataPass} />
+                <CommonInput data={InputDataConfirmPass} />
                 <CommonButton data={ButtonData} />
                 <Text style={styles?.CreateText}  >I Already Have an Account <Pressable onPress={() => { navigation?.navigate(NavigationStrings?.LOGIN_SCREEN) }} ><Text style={styles?.SignUpText}>Log in</Text></Pressable></Text>
             </View>
@@ -87,13 +154,13 @@ const SplashScreen = () => {
                     setshowCP(false);
                 }}
             />
-           
+
 
         </View>
     )
 }
 
-export default SplashScreen
+export default SignUp
 
 const styles = StyleSheet.create({
     LoginScreenWrapper: {

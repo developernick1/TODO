@@ -1,27 +1,36 @@
 import { View, Text, StyleSheet, TextInput, Platform, Pressable } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { EYE_Icon, Mail_Icon } from '../../assets/icons'
 import { height, width } from '../../assets/string'
 import { colors } from '../../assets/color'
 import fonts from '../../assets/fonts'
 
 const CommonInput = ({ data }) => {
+    const [showText, setshowText] = useState(true);
+
+    
+  useEffect(() => {
+    setshowText(data?.type == 'password' ? true : false)
+  }, [])
+
+
     return (
         <Pressable style={styles?.InputWrapper} onPress={() => data?.InputPress ? data?.InputPress() : {}} >
             {data.IconOne && <data.IconOne height={30} width={'15%'} />}
             <Text>{data?.ExtraVal}</Text>
             <TextInput
-                secureTextEntry={false}
+                secureTextEntry={showText}
                 style={styles.input}
-                // onChangeText={onChangeNumber}
-                // value={number}
+                onChangeText={data?.onChangeNumber}
+                // value={number}}
                 editable={!data?.inputDisable}
                 placeholder={data?.PlaceHolderTittle}
                 keyboardType="email-address"
             />
             {data?.type == 'password' ?
-
-                <data.IconTwo height={25} width={'15%'} />
+            <Pressable style={{height: 25, width: '15%'}}  onPress={() => { setshowText(!showText)  }} >
+                <data.IconTwo height={'100%'} width={'100%'} />
+            </Pressable>
                 : null
             }
         </Pressable>

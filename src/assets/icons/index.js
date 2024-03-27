@@ -17,6 +17,11 @@ import FulName_SVG from './FulName.svg'
 import INDIA_SVG from './INDIA.svg'
 import Plus_SVG from './Plus.svg'
 import Task_SVG from './Task.svg'
+import Edit_SVG from './Edit.svg'
+import Delete_SVG from './Delete.svg'
+import Tick_SVG from './Tick.svg'
+import Cross_SVG from './Cross.svg'
+import LogoNew_SVG from './LogoNew.svg'
 
 
 export const Assign_Icon = 
@@ -75,5 +80,20 @@ export const Plus_Icon =
 
 export const Task_Icon =
  ({height, width}) => (<Task_SVG height={height} width={width} />)
+
+export const Edit_Icon =
+ ({height, width}) => (<Edit_SVG height={height} width={width} />)
+
+export const Delete_Icon =
+ ({height, width}) => (<Delete_SVG height={height} width={width} />)
+
+export const Tick_Icon =
+ ({height, width}) => (<Tick_SVG height={height} width={width} />)
+
+export const Cross_Icon =
+ ({height, width}) => (<Cross_SVG height={height} width={width} />)
+
+export const LogoNew_Icon =
+ ({height, width}) => (<LogoNew_SVG height={height} width={width} />)
 
  
