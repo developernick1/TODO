@@ -1,3 +1,27 @@
+To Install The mobile phone on android and test follow the instructions:
+
+Download the APK using this link :- https://drive.google.com/drive/folders/1Kpazc8WXVAQSCf_C42BNXSt0pqbl6nAz?usp=sharing
+
+
+To summarize the steps to use the app:
+STEP : 1        Splash Screen: The app starts with a splash screen displayed for 1 second.
+STEP : 2        Onboarding Screen: After the splash screen, users are directed to an onboarding screen.
+STEP : 3        Next Button: Users navigate through the onboarding screens using a "Next" button.
+STEP : 4        Get Started Button: Once users reach the last slide of the onboarding screen, a "Get Started" button appears.
+STEP : 5        Login Page: After clicking "Get Started", users are directed to a login page.
+STEP : 6        Sign Up Page: At the bottom of the login page, there's an option to sign up. Users fill in their name, email address, password, and confirm password. Passwords must be 8 characters long and include numbers.
+STEP : 7        Redirect to TODO Page: After signing up, users are redirected to a TODO page.
+STEP : 8        Task Input Field: At the bottom of the TODO page, there's an input field where users can add tasks.
+STEP : 9        Task Management: Users can modify, delete, and mark tasks as complete. Completed tasks are grayed out and moved to the bottom of the list. If a completed task is unmarked, it moves back to the top of the list.
+STEP : 10       Profile Icon: On the top right corner of the screen, there's a profile icon. Tapping on it opens a modal displaying basic user information.
+STEP : 11       Sign Out Button: In the modal, there's a "Sign Out" button to log the user out.
+STEP : 12       Login Process: Users can repeat the process by logging in again.
+These steps outline the user journey and interactions within the app
+
+
+
+For Run the project locally follow this instructions: 
+
 This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
 
 # Getting Started
