@@ -22,6 +22,11 @@ import Delete_SVG from './Delete.svg'
 import Tick_SVG from './Tick.svg'
 import Cross_SVG from './Cross.svg'
 import LogoNew_SVG from './LogoNew.svg'
+import DrawerSVG from './DrawerIcon.svg';
+import ProfileSVG from './Profile.svg';
+import LogoutSVG from './Logout.svg';
+import NoTaskSVG from './NoTask.svg';
+
 
 
 export const Assign_Icon = 
@@ -96,4 +101,18 @@ export const Cross_Icon =
 export const LogoNew_Icon =
  ({height, width}) => (<LogoNew_SVG height={height} width={width} />)
 
- 
+ export const DrawerIcon = ({ width, height }) => (
+	<DrawerSVG width={width} height={height} />
+);
+
+ export const LogoutIcon = ({ width, height }) => (
+	<LogoutSVG width={width} height={height} />
+);
+
+ export const ProfileIcon = ({ width, height }) => (
+	<ProfileSVG width={width} height={height} />
+);
+
+ export const NoTaskIcon = ({ width, height }) => (
+	<NoTaskSVG width={width} height={height} />
+);

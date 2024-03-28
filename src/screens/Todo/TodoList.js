@@ -1,18 +1,19 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { FlatList, Platform, Pressable, SafeAreaView, StyleSheet, View, TextInput } from 'react-native'
+import { FlatList, Platform, Pressable, SafeAreaView, StyleSheet, View, TextInput, Modal, Button } from 'react-native'
 import { Text, } from 'react-native-paper'
 import { height, width } from '../../assets/string'
 import fonts from '../../assets/fonts'
 import ListItem from './ListItem'
 import { colors } from '../../assets/color'
 import CommonInput from '../../components/Input/CommonInput'
-import { EYE_Icon, INDIA_Icon, Mail_Icon, Plus_Icon, Task_Icon } from '../../assets/icons'
+import { EYE_Icon, INDIA_Icon, LogoutIcon, Mail_Icon, NoTaskIcon, Plus_Icon, ProfileIcon, Task_Icon } from '../../assets/icons'
 import TaskAddInput from '../../components/Input/TaskAddInput'
 import CompletedListItem from './CompletedListItem'
 import AppwriteContext from '../../appwrite/appWriteContext'
 import Snackbar from 'react-native-snackbar'
 import { useDispatch } from 'react-redux'
 import { setIsloggedIn } from '../../redux/actions/user'
+import { ceil } from 'react-native-reanimated'
 
 function TodoList() {
     const [task, settask] = useState('')
@@ -21,6 +22,8 @@ function TodoList() {
     const [newArray, setNewArray] = useState([]);
 
     //NEW
+    const [modalVisible, setModalVisible] = useState(false);
+
     const [userData, setUserData] = useState({})
     const { appwrite, setIsLoggedIn } = useContext(AppwriteContext)
     const dispatch = useDispatch();
@@ -30,7 +33,7 @@ function TodoList() {
         appwrite.logout()
             .then(() => {
                 setIsLoggedIn(false);
-                dispatch(setIsloggedIn(true));
+                dispatch(setIsloggedIn(false));
                 Snackbar.show({
                     text: 'Logout Successful',
                     duration: Snackbar.LENGTH_SHORT
@@ -123,19 +126,34 @@ function TodoList() {
             <View style={styles?.TodoWrapper} >
                 <View style={styles?.HeadingWrap} >
                     <Text style={styles?.TextHeading} >All Tasks</Text>
-                    {/* <Pressable style={styles?.IconTwoStyle} onPress={() => { handleLogout() }}  >
-                        <INDIA_Icon height={'70%'} width={'70%'} />
-                    </Pressable> */}
-                </View>
+                    <Pressable style={styles?.IconTwoStyleNew} onPress={() => { setModalVisible(true) }} >
+                        <ProfileIcon height={'70%'} width={'70%'} />
+                    </Pressable>
 
-                {/* <View style={styles?.HeadingWrap} >
-                    <Text style={styles?.TextHeading} >Name: {userData.name}</Text>
                 </View>
-                
-                <View style={styles?.HeadingWrap} >
-                    <Text style={styles?.TextHeading} >Email: {userData.email}</Text>
-                </View> */}
-
+                <Modal
+                    animationType="slide" // Change animationType as per your requirement
+                    transparent={true}
+                    visible={modalVisible}
+                    onRequestClose={() => {
+                        setModalVisible(false);
+                    }}
+                    style={styles?.modalstyle}
+                >
+                    <View style={styles.modalContainer}>
+                        <View style={styles.modalContent}>
+                        <Pressable onPress={() => setModalVisible(false)} style={styles?.Cross} >
+                            <Text style={styles?.TextHeadingNew} >X</Text>
+                        </Pressable>
+                            <Text style={styles?.TextHeadingNew} >Name: {userData.name}</Text>
+                            <Text style={styles?.TextHeadingNew} >Email: {userData.email}</Text>
+                            <Pressable style={styles?.IconLOG} onPress={() => { handleLogout() }}  >
+                            <Text style={styles?.TextHeadingNew} >Sign Out</Text>
+                                <LogoutIcon height={width /14} width={width /14} />
+                            </Pressable>
+                        </View>
+                    </View>
+                </Modal>
                 <View style={styles?.ListView} >
                     <FlatList
                         data={taskList}
@@ -151,6 +169,13 @@ function TodoList() {
                                 <ListItem data={item} newData={OtherData} />
                             )
                         }}
+                        ListEmptyComponent={
+                            <View style={styles?.NoItem} >
+
+                            <NoTaskIcon height={width } width={width / 1.1} />
+                            </View>
+
+                        }
                         ListFooterComponent={
                             <FlatList
                                 data={newArray}
@@ -203,15 +228,49 @@ const styles = StyleSheet?.create({
         height: height,
     },
     HeadingWrap: {
-        backgroundColor: 'pink',
+        // backgroundColor: 'pink',
         width: width,
         height: '10%',
         justifyContent: 'center',
         flexDirection: 'row',
         alignItems: 'center',
     },
+    modalstyle: {
+        backgroundColor: 'pink',
+        height: height / 2,
+        width: width / 1.5,
+
+    },
+    NoItem: {
+justifyContent: 'center',
+alignItems:'center',
+flex: 1,
+    },
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    modalContent: {
+        height: height / 5,
+        width: width / 1.5,
+justifyContent:'space-between',
+        backgroundColor: '#fff',
+        padding: 20,
+        borderRadius: 10,
+        alignItems: 'center',
+    },
+    modalText: {
+        fontSize: 20,
+        marginBottom: 20,
+    },
     TextHeading: {
         fontSize: 25,
+        fontFamily: fonts.PoppinsLight,
+    },
+    TextHeadingNew: {
+        fontSize: 16,
         fontFamily: fonts.PoppinsLight,
     },
     ListView: {
@@ -255,11 +314,52 @@ const styles = StyleSheet?.create({
         color: colors?.greyText,
     },
     IconTwoStyle: {
-        //    backgroundColor:'red',
         justifyContent: 'center',
         alignItems: 'center',
         width: '15%',
         height: '75%',
+    },
+    IconTwoStyleNew: {
+        borderRadius: width,
+        backgroundColor: colors?.whiteColor,
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: width / 8,
+        height: width / 8,
+        position: 'absolute',
+        left: width / 1.2,
+    },
+    IconTwoStyleNew: {
+        borderRadius: width,
+        backgroundColor: colors?.whiteColor,
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: width / 8,
+        height: width / 8,
+        position: 'absolute',
+        left: width / 1.2,
+    },
+    Cross: {
+       backgroundColor: colors?.primaryColor,
+       height:  width /14,
+       width: width /14,
+       borderRadius: 50,
+       justifyContent:'center',
+       alignItems: 'center',
+       textAlign: 'center',
+       position:'absolute',
+       right: width /70,
+       top: width /70,
+    },
+    IconLOG: {
+       backgroundColor: colors?.primaryColor,
+       borderRadius: 5,
+       flexDirection: 'row',
+       paddingHorizontal: 15,
+paddingVertical: 5,
+       justifyContent:'center',
+       alignItems: 'center',
+    
     },
 
 })
