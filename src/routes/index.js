@@ -36,7 +36,8 @@ export default function Routes() {
 
 
   if (isLoading) {
-    return <Loading />
+    return <SplashScreen />
+    // return <Loading />
 }
 
   setTimeout(() => {
